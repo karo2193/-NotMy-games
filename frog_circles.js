@@ -1,4 +1,5 @@
 var tableColors=[];
+var tableGoodColors=[];
 var r=150;
 var g=70;
 var b=10;
@@ -7,14 +8,18 @@ var numberOfColors = 2;
 var numberOfRandomRotations = 3;
 
 $( document ).ready(function() {
+    showRandomBoard(widthBoard, numberOfColors);
     $("#generate-board").click( function(e) {
       e.preventDefault();
       console.log("Click board");
+      $(".button").remove();
       showRandomBoard(widthBoard, numberOfColors);
     });
 });
 
 function showRandomBoard(n, numbColors) {
+  tableColors=[];
+  tableGoodColors=[];
   showGoodBoard(n, numbColors);
   for(l=0; l<numberOfRandomRotations; l++) {
     var x=Math.floor(Math.random()*widthBoard);
@@ -60,6 +65,12 @@ function generateGoodColors(n,numbColors) {
       color = (color+1)%numbColors;
     }
   }
+  for(var i=0; i<n; i++) {
+    tableGoodColors.push([]);
+    for(j=0; j<n; j++) {
+      tableGoodColors[i].push(tableColors[i][j]);
+    }
+  }
 }
 
 function clickTile(x, y) {
@@ -77,9 +88,43 @@ function clickTile(x, y) {
       changeColorOfTile((i+widthBoard)%widthBoard,(j+widthBoard)%widthBoard);
     }
   }
-
+  isEndOfGame();
 }
 
 function changeColorOfTile(x, y) {
   document.getElementById('tile'+x+','+y).style.backgroundColor = 'rgb('+(tableColors[x][y]*r)%250+','+(tableColors[x][y]*g)%250+','+(tableColors[x][y]*b)%250+')';
+}
+
+function isEndOfGame() {
+  if(areTheSame(tableColors,tableGoodColors)) {
+    console.log("Brawo!!!");
+    var tiles = document.getElementsByClassName("button");
+    for (var i = 0; i < tiles.length; i++) {
+      tiles[i].style.pointerEvents = 'none';
+    }
+  }
+}
+
+function areTheSame(tab1,tab2) {
+  if(tab1.length==tab2.length) {
+    for (var i = 0; i < tab1.length; i++) {
+      if(tab1[i].length==tab2[i].length) {
+        for(var j=0; j<tab1[i].length; j++) {
+          if(tab1[i][j]==tab2[i][j]) {
+
+          }
+          else {
+            return false;
+          }
+        }
+      }
+      else {
+        return false;
+      }
+    }
+  }
+  else {
+    return false;
+  }
+  return true;
 }
