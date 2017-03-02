@@ -37,7 +37,27 @@
           <div class="col-lg-12">
             <a href="#" class="btn btn-success" id="menu-toggle">Toggle menu</a>
             <h1>FrogCircles</h1>
-            <p>Generate new <a href="#" id="generate-board">board</a>!</p>
+            <p>Select size of board:
+              <select id="selectSize">
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </p>
+
+            <p>Select level:
+              <select id="selectLevel">
+                <option value="easy">easy</option>
+                <option value="medium">medium</option>
+                <option value="hard">hard</option>
+              </select>
+            </p>
+
+            <a href="#" class="btn btn-success" id="generate-board">New game</a>
             <div id="game">
             </div>
           </div>

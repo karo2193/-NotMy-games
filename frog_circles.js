@@ -3,15 +3,20 @@ var tableGoodColors=[];
 var r=150;
 var g=70;
 var b=10;
-var widthBoard = 5;
-var numberOfColors = 2;
-var numberOfRandomRotations = 3;
+var widthBoard;
+var numberOfColors;
+var numberOfRandomRotations;
 
 $( document ).ready(function() {
+
+    generateBasicParameters();
+
     showRandomBoard(widthBoard, numberOfColors);
+
     $("#generate-board").click( function(e) {
       e.preventDefault();
       console.log("Click board");
+      generateBasicParameters()
       $(".button").remove();
       showRandomBoard(widthBoard, numberOfColors);
     });
@@ -22,10 +27,13 @@ function showRandomBoard(n, numbColors) {
   tableGoodColors=[];
   showGoodBoard(n, numbColors);
   for(l=0; l<numberOfRandomRotations; l++) {
+    var numberOfClick = Math.floor(Math.random()*7+1);
     var x=Math.floor(Math.random()*widthBoard);
-    var y =Math.floor(Math.random()*widthBoard);
-    clickTile(x,y);
-    console.log(x+':'+y);
+    var y=Math.floor(Math.random()*widthBoard);
+    for(var k=0; k<numberOfClick; k++) {
+      clickTile(x,y,false);
+    }
+    console.log(x+':'+y+'|'+numberOfClick);
   }
 }
 
@@ -38,14 +46,13 @@ function showGoodBoard(n, numbColors) {
     for(j=0; j<n; j++) {
       row += '<div class="button" id="tile'+i+','+j+'" ';
       row += 'style="background-color: rgb('+(tableColors[i][j]*r)%250+','+(tableColors[i][j]*g)%250+','+(tableColors[i][j]*b)%250+');"'
-      row += 'onclick="clickTile('+i+','+j+')"></div>';
+      row += 'onclick="clickTile('+i+','+j+', true)"></div>';
     }
     row += '</div>';
     $("#game").append(row);
   }
 }
 
-//background-color:
 function generateGoodColors(n,numbColors) {
   for(i=0; i<n; i++) {
     tableColors.push([]);
@@ -73,7 +80,7 @@ function generateGoodColors(n,numbColors) {
   }
 }
 
-function clickTile(x, y) {
+function clickTile(x, y, isPlayer) {
   var temp = tableColors[(x-1+widthBoard)%widthBoard][y];
   tableColors[(x-1+widthBoard)%widthBoard][y]=tableColors[(x-1+widthBoard)%widthBoard][(y+1)%widthBoard];
   tableColors[(x-1+widthBoard)%widthBoard][(y+1)%widthBoard]=tableColors[x][(y+1)%widthBoard];
@@ -88,7 +95,9 @@ function clickTile(x, y) {
       changeColorOfTile((i+widthBoard)%widthBoard,(j+widthBoard)%widthBoard);
     }
   }
-  isEndOfGame();
+  if(isPlayer) {
+    isEndOfGame();
+  }
 }
 
 function changeColorOfTile(x, y) {
@@ -102,6 +111,34 @@ function isEndOfGame() {
     for (var i = 0; i < tiles.length; i++) {
       tiles[i].style.pointerEvents = 'none';
     }
+  }
+}
+
+function generateBasicParameters() {
+
+  widthBoard = parseInt($("#selectSize")[0].value);
+  var level = $("#selectLevel")[0].value;
+  numberOfColors = 2;
+
+  switch (level) {
+    case "easy":
+      numberOfRandomRotations = Math.floor(Math.random()*5+1);
+      break;
+    case "medium":
+      numberOfRandomRotations = Math.floor(Math.random()*6+6);
+      break;
+    case "hard":
+      numberOfRandomRotations = Math.floor(Math.random()*7+12);
+      break;
+    default:
+      numberOfRandomRotations = 6
+  }
+
+  if( widthBoard>4 && widthBoard<9) {
+    numberOfColors = Math.floor(Math.random()*2+2);
+  }
+  else if(widthBoard>8) {
+    numberOfColors = Math.floor(Math.random()*3+2);
   }
 }
 
