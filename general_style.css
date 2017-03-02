@@ -1,6 +1,29 @@
+/*header*/
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+  background: #2c1644;
+}
+
+.navbar-inverse .navbar-brand{
+  color: #b696d1;
+  text-indent: inherit;
+}
+
+.navbar-inverse .navbar-brand:focus{
+  color: #b696d1;
+}
+
+.navbar-inverse .navbar-brand:hover{
+  color: #A585b1;
+}
+
 /* sidebar */
 #sidebar-wrapper{
   z-index: 1;
+  padding-top: 50px;
   width: 0;
   height: 100%;
   overflow-y: hidden;
@@ -13,6 +36,7 @@
   width: 100%;
   position: absolute;
   padding: 15px;
+  padding-top: 50px;
 }
 
 /* change the width after display menu */
@@ -44,3 +68,8 @@
 .sidebar-nav li a:hover{
   background: #49187c;
 }
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+/*@media screen and (max-width: 767px) {
+
+}*/
